@@ -1,0 +1,15 @@
+version: "3.9"
+
+volumes:
+    mongo-data:
+
+services:
+    mongo:
+        image: mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=delivery
+            - MONGO_INITDB_ROOT_PASSWORD=delivery
+        ports:
+            - 27017:27017
+        volumes:
+            - mongo-data:/data/db

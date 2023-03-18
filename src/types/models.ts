@@ -30,7 +30,7 @@ interface IOrder {
 
 interface IStore {
     name: string;
-    owner: IUser;
+    owner: Schema.Types.ObjectId;
     status: "DRAFT" | "LIVE";
 }
 

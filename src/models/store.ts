@@ -16,7 +16,8 @@ const StoreSchema = new Schema<IStore>({
         enum: ["DRAFT", "LIVE"],
     },
     owner: {
-        type: User,
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
 });

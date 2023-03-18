@@ -13,11 +13,8 @@ const configSchema = joi
             .valid("production", "development", "test")
             .required(),
         PORT: joi.number().positive().required(),
-        DATABASE_URL: joi
-            .string()
-            .regex(
-                /\^(mongodb:(?:\/{2})?)((\w+?):(\w+?)@|:?@?)(\w+?):(\d+)\/(\w+?)$\g/
-            ),
+        DATABASE_URL: joi.string().required(),
+        TOKEN_SECRET: joi.string().required(),
     })
     .unknown();
 
@@ -33,4 +30,5 @@ export = {
     nodeEnv: envConfig.NODE_ENV as string,
     port: envConfig.PORT as string,
     databaseUrl: envConfig.DATABASE_URL as string,
+    tokenSecret: envConfig.TOKEN_SECRET as string,
 };

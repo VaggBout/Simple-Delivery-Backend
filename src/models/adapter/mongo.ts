@@ -19,18 +19,11 @@ class MongoAdapter {
     }
 }
 
-export function init() {
-    if (_db) {
-        throw new Error("DB already initialized once!");
-    }
-
-    _db = new MongoAdapter(config.databaseUrl);
-}
-
 export default function mongo() {
     if (_db) {
         return _db.connection;
     }
 
-    throw new Error("DB connection is not yet initialized!");
+    _db = new MongoAdapter(config.databaseUrl);
+    return _db.connection;
 }
