@@ -21,5 +21,5 @@ const StoreSchema = new Schema<IStore>({
     },
 });
 
-const Product = mongo().model<IStore>("Store", StoreSchema);
-export default Product;
+const Store = mongo().model<IStore>("Store", StoreSchema);
+export default Store;
