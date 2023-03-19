@@ -1,10 +1,15 @@
-import { CookieOptions, Request, Response } from "express";
-import { UserDao } from "../../../types/models";
-import * as UserService from "../../../services/user";
+import { Request, Response } from "express";
+import { IStore } from "../../../types/models";
+import * as StoreService from "../../../services/store";
 import logger from "../../../utils/logger";
 import { validationResult } from "express-validator";
 
 export async function post(req: Request, res: Response): Promise<void> {
+    if (!res.locals.user) {
+        res.status(401).send();
+        return;
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -12,11 +17,14 @@ export async function post(req: Request, res: Response): Promise<void> {
         return;
     }
 
-    const email: string = req.body.email;
-    const password: string = req.body.password;
+    const data: IStore = {
+        name: req.body.name,
+        status: "DRAFT",
+        owner: res.locals.user._id,
+    };
 
     try {
-        const result = await UserService.auth(email, password);
+        const result = await StoreService.create(data);
         res.status(result.code);
 
         if (result.error) {
@@ -24,13 +32,7 @@ export async function post(req: Request, res: Response): Promise<void> {
             return;
         }
 
-        const token = UserService.generateAuthToken(result.data as UserDao);
-
-        const options: CookieOptions = {
-            expires: new Date(Date.now() + 3600000 * 24 * 60),
-        };
-        res.cookie("token", token, options);
-        res.send();
+        res.send({ data: result.data });
     } catch (error) {
         logger.error(error);
         res.status(500);

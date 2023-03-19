@@ -1,7 +1,9 @@
 import * as express from "express";
 import * as RegisterApiController from "./controllers/backoffice/api/register";
 import * as LoginApiController from "./controllers/backoffice/api/login";
-import { loginValidator, registerValidator } from "./middlewares/validators";
+import * as StoreApiController from "./controllers/backoffice/api/store";
+import * as Validators from "./middlewares/validators";
+import * as UserMiddleware from "./middlewares/user";
 
 const routes = express.Router();
 const backOfficeRoutes = express.Router();
@@ -12,10 +14,19 @@ backOfficeRoutes.use("/api", backOfficeApiRoutes);
 
 backOfficeApiRoutes.post(
     "/register",
-    registerValidator,
+    Validators.registerValidator,
     RegisterApiController.post
 );
-
-backOfficeApiRoutes.post("/login", loginValidator, LoginApiController.post);
+backOfficeApiRoutes.post(
+    "/login",
+    Validators.loginValidator,
+    LoginApiController.post
+);
+backOfficeApiRoutes.post(
+    "/stores",
+    Validators.createStoreValidator,
+    UserMiddleware.populateAuthUser,
+    StoreApiController.post
+);
 
 export = routes;

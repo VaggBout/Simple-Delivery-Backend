@@ -6,8 +6,7 @@ import { IStore } from "../types/models";
 import logger from "../utils/logger";
 
 export async function create(
-    data: IStore,
-    ownerEmail: string
+    data: IStore
 ): Promise<OperationResult<Types.ObjectId>> {
     const existingStore = await Store.findOne({ name: data.name });
     if (existingStore) {
@@ -17,22 +16,22 @@ export async function create(
         };
     }
 
-    const owner = await User.findOne({ email: ownerEmail });
+    const owner = await User.findById(data.owner);
     if (!owner) {
-        logger.warn(`User ${ownerEmail} does not exist`);
+        logger.warn(`User ${data.owner} does not exist`);
         return {
-            error: "Invalid credentials",
+            error: "Invalid user",
             code: 400,
         };
     }
 
-    const store = new Store({ ...data, owner: owner._id });
+    const store = new Store({ ...data });
     const doc = await store.save();
 
     if (!doc._id) {
         return {
-            error: "Invalid credentials",
-            code: 400,
+            error: "Failed to create store",
+            code: 500,
         };
     }
 

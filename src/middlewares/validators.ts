@@ -30,4 +30,14 @@ const loginValidator = [
         .withMessage("Password should be 5-30 characters"),
 ];
 
-export { registerValidator, loginValidator };
+const createStoreValidator = [
+    body("name")
+        .isString()
+        .not()
+        .isEmpty()
+        .trim()
+        .escape()
+        .withMessage("Must be a valid string"),
+];
+
+export { registerValidator, loginValidator, createStoreValidator };

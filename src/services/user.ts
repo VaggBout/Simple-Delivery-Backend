@@ -1,5 +1,5 @@
 import User from "../models/user";
-import { IUser } from "../types/models";
+import { IUser, UserDao } from "../types/models";
 import * as bcrypt from "bcrypt";
 import logger from "../utils/logger";
 import { OperationResult } from "../types/common";
@@ -43,7 +43,7 @@ export async function register(
 export async function auth(
     email: string,
     password: string
-): Promise<OperationResult<IUser>> {
+): Promise<OperationResult<UserDao>> {
     const user = await User.findOne({ email: email });
 
     if (!user) {
@@ -74,26 +74,18 @@ export async function auth(
     return { data: user, code: 200 };
 }
 
-export function generateAuthToken(user: IUser): string {
+export function generateAuthToken(user: UserDao): string {
     const token = jwt.sign(
         {
             email: user.email,
             name: user.name,
+            id: user._id,
         },
         config.tokenSecret,
         { expiresIn: "30d" }
     );
 
     return token;
-}
-
-async function generateHash(s: string): Promise<string> {
-    try {
-        const hash = await bcrypt.hash(s, saltRounds);
-        return hash;
-    } catch (error) {
-        throw new Error(`Error hashing ${s}. Error: ${JSON.stringify(error)}`);
-    }
 }
 
 export function validateToken(token: string): JwtToken | null {
@@ -106,5 +98,31 @@ export function validateToken(token: string): JwtToken | null {
     } catch (error) {
         logger.warn(`Failed to verify token: ${token}`);
         return null;
+    }
+}
+
+export async function getUserById(
+    id: Types.ObjectId
+): Promise<OperationResult<UserDao>> {
+    const user = await User.findById(id);
+    if (!user) {
+        return {
+            error: "User with id does not exist",
+            code: 404,
+        };
+    }
+
+    return {
+        data: user,
+        code: 200,
+    };
+}
+
+async function generateHash(s: string): Promise<string> {
+    try {
+        const hash = await bcrypt.hash(s, saltRounds);
+        return hash;
+    } catch (error) {
+        throw new Error(`Error hashing ${s}. Error: ${JSON.stringify(error)}`);
     }
 }

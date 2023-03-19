@@ -1,4 +1,5 @@
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
+import { WithRequired } from "./common";
 
 interface IProduct {
     name: string;
@@ -9,7 +10,7 @@ interface IProduct {
 interface ICategory {
     name: string;
     products: Array<IProduct>;
-    store: Schema.Types.ObjectId;
+    store: Types.ObjectId;
 }
 
 interface IUser {
@@ -18,20 +19,23 @@ interface IUser {
     email: string;
     type: "GUEST" | "OWNER";
     hash?: string;
+    _id?: Types.ObjectId;
 }
+
+type UserDao = WithRequired<IUser, "_id">;
 
 interface IOrder {
     user: IUser;
     products: Array<IProduct>;
     date: Date;
     totalPrice: number;
-    store: Schema.Types.ObjectId;
+    store: Types.ObjectId;
 }
 
 interface IStore {
     name: string;
-    owner: Schema.Types.ObjectId;
+    owner: Types.ObjectId;
     status: "DRAFT" | "LIVE";
 }
 
-export { IProduct, ICategory, IUser, IOrder, IStore };
+export { IProduct, ICategory, IUser, IOrder, IStore, UserDao };
