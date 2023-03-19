@@ -19,4 +19,15 @@ const registerValidator = [
         .withMessage("Password should be 5-30 characters"),
 ];
 
-export { registerValidator };
+const loginValidator = [
+    body("email")
+        .normalizeEmail()
+        .isEmail()
+        .withMessage("Must be a valid email"),
+    body("password")
+        .isString()
+        .isLength({ min: 5, max: 30 })
+        .withMessage("Password should be 5-30 characters"),
+];
+
+export { registerValidator, loginValidator };
