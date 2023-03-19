@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import { ICategory } from "../types/models";
 import mongo from "./adapter/mongo";
-import Product from "./product";
+import { ProductSchema } from "./product";
 
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema<ICategory>({
     name: { type: Schema.Types.String, required: true },
     products: {
-        type: [Product],
+        type: [ProductSchema],
         required: true,
     },
     store: {

@@ -40,4 +40,32 @@ const createStoreValidator = [
         .withMessage("Must be a valid string"),
 ];
 
-export { registerValidator, loginValidator, createStoreValidator };
+const createCategoryValidator = [
+    body("name")
+        .isString()
+        .not()
+        .isEmpty()
+        .trim()
+        .escape()
+        .withMessage("Must be a valid string"),
+    body("store").isMongoId().trim().escape(),
+    body("products").isArray({ min: 2 }),
+    body("products.*.name")
+        .isString()
+        .not()
+        .isEmpty()
+        .trim()
+        .escape()
+        .withMessage("Must be a valid string"),
+    body("products.*.price")
+        .isFloat({ min: 0.01 })
+        .withMessage("Must be a valid price"),
+    body("products.*.description").not().isEmpty().trim().escape(),
+];
+
+export {
+    registerValidator,
+    loginValidator,
+    createStoreValidator,
+    createCategoryValidator,
+};

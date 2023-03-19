@@ -4,7 +4,7 @@ import mongo from "./adapter/mongo";
 
 const Schema = mongoose.Schema;
 
-const ProductSchema = new Schema<IProduct>({
+export const ProductSchema = new Schema<IProduct>({
     name: {
         type: Schema.Types.String,
         required: true,

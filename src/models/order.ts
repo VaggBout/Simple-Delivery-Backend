@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 import { IOrder } from "../types/models";
 import mongo from "./adapter/mongo";
-import Product from "./product";
-import User from "./user";
+import { ProductSchema } from "./product";
+import { UserSchema } from "./user";
 
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema<IOrder>({
     user: {
-        type: User,
+        type: UserSchema,
         required: true,
     },
     products: {
-        type: [Product],
+        type: [ProductSchema],
         required: true,
     },
     date: {

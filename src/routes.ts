@@ -1,7 +1,10 @@
 import * as express from "express";
+
 import * as RegisterApiController from "./controllers/backoffice/api/register";
 import * as LoginApiController from "./controllers/backoffice/api/login";
-import * as StoreApiController from "./controllers/backoffice/api/stores";
+import * as StoresApiController from "./controllers/backoffice/api/stores";
+import * as CategoriesApiController from "./controllers/backoffice/api/categories";
+
 import * as Validators from "./middlewares/validators";
 import * as UserMiddleware from "./middlewares/user";
 
@@ -26,7 +29,13 @@ backOfficeApiRoutes.post(
     "/stores",
     Validators.createStoreValidator,
     UserMiddleware.populateAuthUser,
-    StoreApiController.post
+    StoresApiController.post
+);
+backOfficeApiRoutes.post(
+    "/categories",
+    Validators.createCategoryValidator,
+    UserMiddleware.populateAuthUser,
+    CategoriesApiController.post
 );
 
 export = routes;

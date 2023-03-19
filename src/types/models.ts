@@ -1,4 +1,4 @@
-import { Schema, Types } from "mongoose";
+import { Types } from "mongoose";
 import { WithRequired } from "./common";
 
 interface IProduct {

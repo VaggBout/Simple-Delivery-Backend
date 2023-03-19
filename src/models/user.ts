@@ -4,7 +4,7 @@ import mongo from "./adapter/mongo";
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema<IUser>({
+export const UserSchema = new Schema<IUser>({
     name: {
         type: Schema.Types.String,
         required: true,
