@@ -63,12 +63,12 @@ const createCategoryValidator = [
     body("products.*.description").not().isEmpty().trim().escape(),
 ];
 
-const publishStoreValidator = [param("id").isMongoId()];
+const IdParamValidator = [param("id").isMongoId()];
 
 export {
     registerValidator,
     loginValidator,
     createStoreValidator,
     createCategoryValidator,
-    publishStoreValidator,
+    IdParamValidator,
 };

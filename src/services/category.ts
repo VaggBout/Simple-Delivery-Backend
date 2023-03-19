@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import Category from "../models/category";
 import Store from "../models/store";
 import { OperationResult } from "../types/common";
-import { ICategory } from "../types/models";
+import { CategoryDao, ICategory } from "../types/models";
 
 export async function create(
     data: ICategory
@@ -38,6 +38,28 @@ export async function create(
 
     return {
         data: doc._id,
+        code: 200,
+    };
+}
+
+export async function getStoresCategories(
+    storeId: Types.ObjectId
+): Promise<OperationResult<Array<CategoryDao>>> {
+    const store = await Store.findById(storeId);
+
+    if (!store || store.status === "DRAFT") {
+        return {
+            error: `Store ${storeId} does not exist`,
+            code: 404,
+        };
+    }
+
+    const menu = await Category.find(
+        { store: storeId },
+        { name: 1, products: 1, _id: 1 }
+    );
+    return {
+        data: menu,
         code: 200,
     };
 }

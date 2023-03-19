@@ -11,7 +11,10 @@ interface ICategory {
     name: string;
     products: Array<IProduct>;
     store: Types.ObjectId;
+    _id?: Types.ObjectId;
 }
+
+type CategoryDao = WithRequired<ICategory, "_id">;
 
 interface IUser {
     name: string;
@@ -41,4 +44,13 @@ interface IStore {
 
 type StoreDao = WithRequired<IStore, "_id">;
 
-export { IProduct, ICategory, IUser, IOrder, IStore, UserDao, StoreDao };
+export {
+    IProduct,
+    ICategory,
+    IUser,
+    IOrder,
+    IStore,
+    UserDao,
+    StoreDao,
+    CategoryDao,
+};
