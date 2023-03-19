@@ -14,9 +14,6 @@ export async function register(
     data: IUser,
     password: string | null
 ): Promise<OperationResult<Types.ObjectId>> {
-    data.email = data.email.trim();
-    data.name = data.name.trim();
-
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) {
         return {
