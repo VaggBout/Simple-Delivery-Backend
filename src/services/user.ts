@@ -107,7 +107,7 @@ export async function getUserById(
     const user = await User.findById(id);
     if (!user) {
         return {
-            error: "User with id does not exist",
+            error: `User with id ${id} does not exist`,
             code: 404,
         };
     }
