@@ -31,6 +31,12 @@ backOfficeApiRoutes.post(
     UserMiddleware.populateAuthUser,
     StoresApiController.post
 );
+backOfficeApiRoutes.patch(
+    "/stores/:id/publish",
+    Validators.publishStoreValidator,
+    UserMiddleware.populateAuthUser,
+    StoresApiController.publish
+);
 backOfficeApiRoutes.post(
     "/categories",
     Validators.createCategoryValidator,

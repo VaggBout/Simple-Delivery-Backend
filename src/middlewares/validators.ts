@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const registerValidator = [
     body("name")
@@ -63,9 +63,12 @@ const createCategoryValidator = [
     body("products.*.description").not().isEmpty().trim().escape(),
 ];
 
+const publishStoreValidator = [param("id").isMongoId()];
+
 export {
     registerValidator,
     loginValidator,
     createStoreValidator,
     createCategoryValidator,
+    publishStoreValidator,
 };
