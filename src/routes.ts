@@ -1,9 +1,11 @@
 import * as express from "express";
 
-import * as RegisterApiController from "./controllers/backoffice/api/register";
-import * as LoginApiController from "./controllers/backoffice/api/login";
-import * as StoresApiController from "./controllers/backoffice/api/stores";
-import * as CategoriesApiController from "./controllers/backoffice/api/categories";
+import * as BackofficeRegisterApiController from "./controllers/backoffice/api/register";
+import * as BackofficeLoginApiController from "./controllers/backoffice/api/login";
+import * as BackofficeStoresApiController from "./controllers/backoffice/api/stores";
+import * as BackofficeCategoriesApiController from "./controllers/backoffice/api/categories";
+
+import * as StoresApiController from "./controllers/api/stores";
 
 import * as Validators from "./middlewares/validators";
 import * as UserMiddleware from "./middlewares/user";
@@ -11,37 +13,42 @@ import * as UserMiddleware from "./middlewares/user";
 const routes = express.Router();
 const backOfficeRoutes = express.Router();
 const backOfficeApiRoutes = express.Router();
+const apiRoutes = express.Router();
 
 routes.use("/backoffice", backOfficeRoutes);
+routes.use("/api", apiRoutes);
+
+apiRoutes.get("/stores", StoresApiController.get);
+
 backOfficeRoutes.use("/api", backOfficeApiRoutes);
 
 backOfficeApiRoutes.post(
     "/register",
     Validators.registerValidator,
-    RegisterApiController.post
+    BackofficeRegisterApiController.post
 );
 backOfficeApiRoutes.post(
     "/login",
     Validators.loginValidator,
-    LoginApiController.post
+    BackofficeLoginApiController.post
 );
 backOfficeApiRoutes.post(
     "/stores",
     Validators.createStoreValidator,
     UserMiddleware.populateAuthUser,
-    StoresApiController.post
+    BackofficeStoresApiController.post
 );
 backOfficeApiRoutes.patch(
     "/stores/:id/publish",
     Validators.publishStoreValidator,
     UserMiddleware.populateAuthUser,
-    StoresApiController.publish
+    BackofficeStoresApiController.publish
 );
 backOfficeApiRoutes.post(
     "/categories",
     Validators.createCategoryValidator,
     UserMiddleware.populateAuthUser,
-    CategoriesApiController.post
+    BackofficeCategoriesApiController.post
 );
 
 export = routes;

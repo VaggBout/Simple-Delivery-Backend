@@ -36,6 +36,9 @@ interface IStore {
     name: string;
     owner: Types.ObjectId;
     status: "DRAFT" | "LIVE";
+    _id?: Types.ObjectId;
 }
 
-export { IProduct, ICategory, IUser, IOrder, IStore, UserDao };
+type StoreDao = WithRequired<IStore, "_id">;
+
+export { IProduct, ICategory, IUser, IOrder, IStore, UserDao, StoreDao };

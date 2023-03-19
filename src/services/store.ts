@@ -1,9 +1,9 @@
-import { STATES, Types } from "mongoose";
+import { Types } from "mongoose";
 import Category from "../models/category";
 import Store from "../models/store";
 import User from "../models/user";
 import { OperationResult } from "../types/common";
-import { IStore } from "../types/models";
+import { IStore, StoreDao } from "../types/models";
 import logger from "../utils/logger";
 
 export async function create(
@@ -73,6 +73,16 @@ export async function publish(
 
     return {
         data: storeId,
+        code: 200,
+    };
+}
+
+export async function getLiveStores(): Promise<
+    OperationResult<Array<StoreDao>>
+> {
+    const stores = await Store.find({ status: "LIVE" });
+    return {
+        data: stores,
         code: 200,
     };
 }
