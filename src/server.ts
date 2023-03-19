@@ -4,6 +4,7 @@ import routes from "./routes";
 import path from "path";
 import logger from "./utils/logger";
 import cookieParser from "cookie-parser";
+import mongoSanitize from "express-mongo-sanitize";
 
 const app: Express = express();
 
@@ -14,6 +15,8 @@ const port = config.port;
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(mongoSanitize());
+
 app.use("/", routes);
 
 app.use("*", function (_req: express.Request, res: express.Response) {

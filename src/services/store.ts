@@ -9,8 +9,6 @@ export async function create(
     data: IStore,
     ownerEmail: string
 ): Promise<OperationResult<Types.ObjectId>> {
-    data.name = data.name.trim();
-
     const existingStore = await Store.findOne({ name: data.name });
     if (existingStore) {
         return {

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { IStore } from "../types/models";
 import mongo from "./adapter/mongo";
-import User from "./user";
 
 const Schema = mongoose.Schema;
 
