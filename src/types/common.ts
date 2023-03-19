@@ -4,4 +4,6 @@ type OperationResult<T> = {
     code: number;
 };
 
-export { OperationResult };
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+
+export { OperationResult, WithRequired };
