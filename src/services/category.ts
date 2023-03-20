@@ -75,7 +75,7 @@ export async function getProductsByStoreId(
             code: 404,
         };
     }
-    console.log(storeId);
+
     const products: Array<IProduct> = await Category.aggregate([
         { $match: { $expr: { $eq: ["$store", { $toObjectId: storeId }] } } },
         { $unwind: "$products" },

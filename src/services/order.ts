@@ -19,12 +19,12 @@ export async function create(
     const order = new Order({ user, date: DateTime.now(), store: storeId });
     let totalPrice = 0;
 
-    const menuItems: Map<String, IProduct> = new Map(
+    const menu: Map<String, IProduct> = new Map(
         productsResult.data.map((product) => [product._id.toString(), product])
     );
 
     for (const product of products) {
-        const menuItem = menuItems.get(product._id);
+        const menuItem = menu.get(product._id);
         if (!menuItem) {
             return {
                 error: `Product ${product._id} does not exist on store ${storeId}`,
