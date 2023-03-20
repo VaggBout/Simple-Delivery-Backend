@@ -5,6 +5,12 @@ interface IProduct {
     name: string;
     price: number;
     description: string;
+    _id: Types.ObjectId;
+}
+
+interface ProductOrder {
+    quantity: number;
+    _id: string;
 }
 
 interface ICategory {
@@ -53,4 +59,5 @@ export {
     UserDao,
     StoreDao,
     CategoryDao,
+    ProductOrder,
 };

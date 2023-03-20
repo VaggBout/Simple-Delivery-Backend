@@ -63,6 +63,25 @@ const createCategoryValidator = [
     body("products.*.description").not().isEmpty().trim().escape(),
 ];
 
+const createOrderValidator = [
+    body("user").isObject(),
+    body("user.name")
+        .isString()
+        .not()
+        .isEmpty()
+        .trim()
+        .escape()
+        .withMessage("Must be a valid string"),
+    body("user.email")
+        .normalizeEmail()
+        .isEmail()
+        .withMessage("Must be a valid email"),
+    body("user.address").isString().withMessage("Must be a valid address"),
+    body("products").isArray({ min: 1 }),
+    body("products.*._id").isMongoId(),
+    body("products.*.quantity").isInt({ min: 1 }),
+];
+
 const IdParamValidator = [param("id").isMongoId()];
 
 export {
@@ -71,4 +90,5 @@ export {
     createStoreValidator,
     createCategoryValidator,
     IdParamValidator,
+    createOrderValidator,
 };

@@ -1,8 +1,8 @@
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import Category from "../models/category";
 import Store from "../models/store";
 import { OperationResult } from "../types/common";
-import { CategoryDao, ICategory } from "../types/models";
+import { CategoryDao, ICategory, IProduct } from "../types/models";
 
 export async function create(
     data: ICategory
@@ -60,6 +60,30 @@ export async function getStoresCategories(
     );
     return {
         data: menu,
+        code: 200,
+    };
+}
+
+export async function getProductsByStoreId(
+    storeId: mongoose.Types.ObjectId
+): Promise<OperationResult<Array<IProduct>>> {
+    const store = await Store.findById(storeId);
+
+    if (!store || store.status === "DRAFT") {
+        return {
+            error: `Store ${storeId} does not exist`,
+            code: 404,
+        };
+    }
+    console.log(storeId);
+    const products: Array<IProduct> = await Category.aggregate([
+        { $match: { $expr: { $eq: ["$store", { $toObjectId: storeId }] } } },
+        { $unwind: "$products" },
+        { $replaceRoot: { newRoot: "$products" } },
+    ]);
+
+    return {
+        data: products ?? [],
         code: 200,
     };
 }

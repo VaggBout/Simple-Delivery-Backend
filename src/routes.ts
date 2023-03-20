@@ -7,6 +7,7 @@ import * as BackofficeCategoriesApiController from "./controllers/backoffice/api
 
 import * as StoresApiController from "./controllers/api/stores";
 import * as MenuApiController from "./controllers/api/menu";
+import * as OrderApiController from "./controllers/api/order";
 
 import * as Validators from "./middlewares/validators";
 import * as UserMiddleware from "./middlewares/user";
@@ -24,6 +25,12 @@ apiRoutes.get(
     "/stores/:id/menu",
     Validators.IdParamValidator,
     MenuApiController.get
+);
+apiRoutes.post(
+    "/stores/:id/orders",
+    Validators.IdParamValidator,
+    Validators.createOrderValidator,
+    OrderApiController.post
 );
 
 backOfficeRoutes.use("/api", backOfficeApiRoutes);
