@@ -61,7 +61,7 @@ export async function getStoresCategories(
         const currency = await Currency.findOne({ symbol: currencySymbol });
         if (!currency) {
             return {
-                error: `Unknown currency: ${currency}`,
+                error: `Unsupported currency: ${currencySymbol}`,
                 code: 400,
             };
         }

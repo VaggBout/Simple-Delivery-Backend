@@ -21,7 +21,15 @@ export async function get(req: Request, res: Response): Promise<void> {
             storeId,
             currencyCode
         );
-        res.status(result.code).send(result.data ?? []);
+
+        res.status(result.code);
+        if (result.error) {
+            if (result.error) {
+                res.send({ error: result.error });
+                return;
+            }
+        }
+        res.send(result.data ?? []);
     } catch (error) {
         logger.error(error);
         res.status(500);
