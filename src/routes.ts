@@ -24,6 +24,7 @@ apiRoutes.get("/stores", StoresApiController.get);
 apiRoutes.get(
     "/stores/:id/menu",
     Validators.IdParamValidator,
+    Validators.CurrencyQueryValidator,
     MenuApiController.get
 );
 apiRoutes.post(

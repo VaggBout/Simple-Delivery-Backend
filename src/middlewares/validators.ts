@@ -1,4 +1,4 @@
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 
 const registerValidator = [
     body("name")
@@ -84,6 +84,14 @@ const createOrderValidator = [
 
 const IdParamValidator = [param("id").isMongoId()];
 
+const CurrencyQueryValidator = [
+    query("currency")
+        .optional()
+        .isString()
+        .trim()
+        .matches(/[A-Z]{3}/),
+];
+
 export {
     registerValidator,
     loginValidator,
@@ -91,4 +99,5 @@ export {
     createCategoryValidator,
     IdParamValidator,
     createOrderValidator,
+    CurrencyQueryValidator,
 };

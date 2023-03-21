@@ -1,5 +1,6 @@
 import mongoose, { Types } from "mongoose";
 import Category from "../models/category";
+import Currency from "../models/currency";
 import Store from "../models/store";
 import { OperationResult } from "../types/common";
 import { CategoryDao, ICategory, IProduct } from "../types/models";
@@ -43,7 +44,8 @@ export async function create(
 }
 
 export async function getStoresCategories(
-    storeId: Types.ObjectId
+    storeId: Types.ObjectId,
+    currencySymbol: string | null
 ): Promise<OperationResult<Array<CategoryDao>>> {
     const store = await Store.findById(storeId);
 
@@ -54,10 +56,21 @@ export async function getStoresCategories(
         };
     }
 
-    const menu = await Category.find(
-        { store: storeId },
-        { name: 1, products: 1, _id: 1 }
-    );
+    let menu: Array<CategoryDao>;
+    if (currencySymbol) {
+        const currency = await Currency.findOne({ symbol: currencySymbol });
+        if (!currency) {
+            return {
+                error: `Unknown currency: ${currency}`,
+                code: 400,
+            };
+        }
+
+        menu = await getStoresCategoriesForCurrency(storeId, currency.rate);
+    } else {
+        menu = await getStoresCategoriesDefaultPrice(storeId);
+    }
+
     return {
         data: menu,
         code: 200,
@@ -86,4 +99,62 @@ export async function getProductsByStoreId(
         data: products ?? [],
         code: 200,
     };
+}
+
+async function getStoresCategoriesDefaultPrice(
+    storeId: mongoose.Types.ObjectId
+): Promise<Array<CategoryDao>> {
+    const menu: Array<CategoryDao> = await Category.find(
+        { store: storeId },
+        { name: 1, products: 1, _id: 1 }
+    );
+
+    return menu;
+}
+
+async function getStoresCategoriesForCurrency(
+    storeId: mongoose.Types.ObjectId,
+    rate: Types.Decimal128
+): Promise<Array<CategoryDao>> {
+    const menu: Array<CategoryDao> = await Category.aggregate([
+        {
+            $match: {
+                $expr: {
+                    $eq: ["$store", { $toObjectId: storeId }],
+                },
+            },
+        },
+        {
+            $project: {
+                name: 1,
+                _id: 1,
+                products: {
+                    $map: {
+                        input: "$products",
+                        as: "product",
+                        in: {
+                            name: "$$product.name",
+                            description: "$$product.description",
+                            price: {
+                                $toString: {
+                                    $round: [
+                                        {
+                                            $multiply: [
+                                                "$$product.price",
+                                                rate,
+                                            ],
+                                        },
+                                        2,
+                                    ],
+                                },
+                            },
+                            _id: "$$product._id",
+                        },
+                    },
+                },
+            },
+        },
+    ]);
+
+    return menu;
 }

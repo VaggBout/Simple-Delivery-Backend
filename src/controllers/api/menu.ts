@@ -7,13 +7,20 @@ import logger from "../../utils/logger";
 export async function get(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(400).send({ error: errors.array()[0].msg });
+        res.status(400).send({ error: errors.array() });
         return;
     }
 
     const storeId = req.params.id as unknown as Types.ObjectId;
+    const currencyCode = req.query?.currency
+        ? (req.query?.currency as unknown as string)
+        : null;
+
     try {
-        const result = await CategoryService.getStoresCategories(storeId);
+        const result = await CategoryService.getStoresCategories(
+            storeId,
+            currencyCode
+        );
         res.status(result.code).send(result.data ?? []);
     } catch (error) {
         logger.error(error);
