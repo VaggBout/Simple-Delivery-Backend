@@ -50,6 +50,16 @@ interface IStore {
 
 type StoreDao = WithRequired<IStore, "_id">;
 
+interface ICurrency {
+    symbol: string;
+    rate: Types.Decimal128;
+}
+
+interface CurrencyDao {
+    symbol: string;
+    rate: string;
+}
+
 export {
     IProduct,
     ICategory,
@@ -60,4 +70,6 @@ export {
     StoreDao,
     CategoryDao,
     ProductOrder,
+    ICurrency,
+    CurrencyDao,
 };

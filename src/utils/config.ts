@@ -15,6 +15,7 @@ const configSchema = joi
         PORT: joi.number().positive().required(),
         DATABASE_URL: joi.string().required(),
         TOKEN_SECRET: joi.string().required(),
+        FIXER_API_KEY: joi.string().required(),
     })
     .unknown();
 
@@ -31,4 +32,5 @@ export = {
     port: envConfig.PORT as string,
     databaseUrl: envConfig.DATABASE_URL as string,
     tokenSecret: envConfig.TOKEN_SECRET as string,
+    fixerApiKey: envConfig.FIXER_API_KEY as string,
 };
