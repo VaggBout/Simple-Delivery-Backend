@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body class="container">
+    <header><%- include('partials/header'); %></header>
+    <main class="pt-3">
+        <div class="container pt-5">
+            <div class="row justify-content-center">
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12 col-md-8 col-lg-6">
+                            <div class="border border-3 border-primary"></div>
+                            <div class="card bg-white">
+                                <div class="card-body p-5">
+                                    <form class="mb-3 mt-md-4" id="loginForm">
+                                        <p class=" mb-5 fw-bold">Please enter your login and password!</p>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label ">Email address</label>
+                                            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label ">Password</label>
+                                            <input type="password" class="form-control" id="loginPassword" placeholder="*******">
+                                        </div>
+                                        <div class="d-grid">
+                                            <button class="btn btn-outline-dark" type="submit" id="loginBtn">Login</button>
+                                        </div>
+                                    </form>
+                                    <div>
+                                        <p class="mb-0  text-center">Don't have an account? <a href="/backoffice/register" class="text-primary fw-bold">Sign
+                                                Up</a></p>
+                                    </div>
+                                    <span id="loginError" class="mh-5"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/login.js"></script>
+    <footer><%- include('partials/footer'); %></footer>
+</body>

@@ -17,10 +17,10 @@ const port = config.port;
 app.use(cookieParser());
 app.use(express.json());
 app.use(mongoSanitize());
-
+app.use("/static", express.static("public"));
 app.use("/", routes);
 
-app.use("*", function (_req: express.Request, res: express.Response) {
+app.use(function (_req: express.Request, res: express.Response) {
     res.render("404");
 });
 
