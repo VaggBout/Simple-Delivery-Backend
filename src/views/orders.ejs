@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body class="container">
+    <header><%- include('partials/header'); %></header>
+    <main class="pt-3">
+        <% if (locals.user) { %>
+        <div class="container">
+            <div class="row justify-content-left">
+                <div class="col">
+                    <h3>
+                        Welcome <%= locals.user.name %>!
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <div class="container pt-3">
+            <div class="row justify-content-between">
+                <% if (locals.orders && locals.orders.length > 0) { %>
+                <div id="ordersList">
+                    <%- include("partials/ordersList", { orders: locals.orders, user: locals.user }); %>
+                </div>
+                <% } else { %>
+                <div id="ordersList">
+                    <div>No orders yet!</div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    <footer><%- include('partials/footer'); %></footer>
+</body>

@@ -17,6 +17,10 @@ export const ProductSchema = new Schema<IProduct>({
         type: Schema.Types.String,
         required: true,
     },
+    quantity: {
+        type: Schema.Types.Number,
+        required: false,
+    },
 });
 
 const Product = mongo().model<IProduct>("Product", ProductSchema);

@@ -1,0 +1,36 @@
+<% for(let i=0; i < locals.orders.length; i++) { %>
+<div class="container border border-dark border-3 px-3 py-1 my-2 _order_entry" id="order_<%=locals.orders[i].id%>">
+    <div class="row">
+        <div class="col">
+            <h3>From <%= locals.orders[i].user.name %></h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <p>Address: <%= locals.orders[i].user.address %></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Received at: <%= (new Date(locals.orders[i].date)).toUTCString() %></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Total price: <%= locals.orders[i].totalPrice %> EUR</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <ol class="list-group list-group-numbered"></ol>
+            <% for(let j=0; j < locals.orders[i].products.length; j++) { %>
+            <li class="list-group-item">Product: <%= locals.orders[i].products[j].name %> x <%= locals.orders[i].products[j].quantity ?? 1 %> </li>
+            <% } %>
+            </ol>
+        </div>
+    </div>
+</div>
+<% } %>

@@ -86,3 +86,21 @@ export async function getLiveStores(): Promise<
         code: 200,
     };
 }
+
+export async function getStoreByOwnerId(
+    owner: Types.ObjectId
+): Promise<OperationResult<StoreDao>> {
+    const store = await Store.findOne({ owner });
+
+    if (!store) {
+        return {
+            error: "Store does not exist",
+            code: 404,
+        };
+    }
+
+    return {
+        data: store,
+        code: 200,
+    };
+}

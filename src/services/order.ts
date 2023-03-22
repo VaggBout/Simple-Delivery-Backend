@@ -2,8 +2,9 @@ import { DateTime } from "luxon";
 import { Types } from "mongoose";
 import Order from "../models/order";
 import Product from "../models/product";
+import Store from "../models/store";
 import { OperationResult } from "../types/common";
-import { IProduct, IUser, ProductOrder } from "../types/models";
+import { IOrder, IProduct, IUser, ProductOrder } from "../types/models";
 import * as CategoryService from "./category";
 
 export async function create(
@@ -38,6 +39,7 @@ export async function create(
                 name: menuItem.name,
                 price: menuItem.price,
                 description: menuItem.description,
+                quantity: product.quantity,
             })
         );
     }
@@ -46,6 +48,27 @@ export async function create(
     const doc = await order.save();
     return {
         data: doc.id,
+        code: 200,
+    };
+}
+
+export async function getOrdersByStoreId(
+    storeId: Types.ObjectId
+): Promise<OperationResult<Array<IOrder>>> {
+    const store = await Store.findById(storeId);
+    if (!store) {
+        return {
+            error: `Store ${storeId} does not exist`,
+            code: 404,
+        };
+    }
+
+    const orders: Array<IOrder> = await Order.find({ store: storeId }).sort({
+        _id: -1,
+    });
+
+    return {
+        data: orders,
         code: 200,
     };
 }

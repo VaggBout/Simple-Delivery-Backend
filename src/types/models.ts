@@ -5,6 +5,7 @@ interface IProduct {
     name: string;
     price: number;
     description: string;
+    quantity?: number;
     _id: Types.ObjectId;
 }
 
