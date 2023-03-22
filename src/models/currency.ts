@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { ICurrency } from "../types/models";
-import mongo from "./adapter/mongo";
 
 const Schema = mongoose.Schema;
 
@@ -16,6 +15,6 @@ export const CurrencySchema = new Schema<ICurrency>({
 });
 
 CurrencySchema.index({ symbol: 1 }, { unique: true });
-const Currency = mongo().model<ICurrency>("Currency", CurrencySchema);
+const Currency = mongoose.model<ICurrency>("Currency", CurrencySchema);
 
 export default Currency;

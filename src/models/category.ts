@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { ICategory } from "../types/models";
-import mongo from "./adapter/mongo";
 import { ProductSchema } from "./product";
 
 const Schema = mongoose.Schema;
@@ -18,5 +17,5 @@ const CategorySchema = new Schema<ICategory>({
     },
 });
 
-const Category = mongo().model<ICategory>("Category", CategorySchema);
+const Category = mongoose.model<ICategory>("Category", CategorySchema);
 export default Category;

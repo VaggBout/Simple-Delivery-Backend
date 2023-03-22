@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { IUser } from "../types/models";
-import mongo from "./adapter/mongo";
 
 const Schema = mongoose.Schema;
 
@@ -28,5 +27,5 @@ export const UserSchema = new Schema<IUser>({
     },
 });
 
-const User = mongo().model<IUser>("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
 export default User;

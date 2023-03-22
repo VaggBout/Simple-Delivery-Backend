@@ -6,6 +6,7 @@ import logger from "./utils/logger";
 import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
 import { registerJobs } from "./jobs/runner";
+import mongoose from "mongoose";
 
 const app: Express = express();
 
@@ -25,6 +26,7 @@ app.use(function (_req: express.Request, res: express.Response) {
 });
 
 app.listen(port, () => {
+    mongoose.connect(config.databaseUrl);
     registerJobs();
     logger.info(`Server is running at http://localhost:${port}`);
 });

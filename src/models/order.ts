@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { IOrder } from "../types/models";
-import mongo from "./adapter/mongo";
 import { ProductSchema } from "./product";
 import { UserSchema } from "./user";
 
@@ -30,5 +29,5 @@ const OrderSchema = new Schema<IOrder>({
     },
 });
 
-const Order = mongo().model<IOrder>("Order", OrderSchema);
+const Order = mongoose.model<IOrder>("Order", OrderSchema);
 export default Order;

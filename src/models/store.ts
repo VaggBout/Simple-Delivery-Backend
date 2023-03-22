@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { IStore } from "../types/models";
-import mongo from "./adapter/mongo";
 
 const Schema = mongoose.Schema;
 
@@ -21,5 +20,5 @@ const StoreSchema = new Schema<IStore>({
     },
 });
 
-const Store = mongo().model<IStore>("Store", StoreSchema);
+const Store = mongoose.model<IStore>("Store", StoreSchema);
 export default Store;
