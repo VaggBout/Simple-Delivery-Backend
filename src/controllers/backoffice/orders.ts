@@ -14,7 +14,7 @@ export async function get(req: Request, res: Response): Promise<void> {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        res.status(400).send({ error: errors.array() });
+        res.redirect("404");
         return;
     }
 

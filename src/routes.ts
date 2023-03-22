@@ -4,6 +4,7 @@ import * as BackofficeRegisterApiController from "./controllers/backoffice/api/r
 import * as BackofficeLoginApiController from "./controllers/backoffice/api/login";
 import * as BackofficeStoresApiController from "./controllers/backoffice/api/stores";
 import * as BackofficeCategoriesApiController from "./controllers/backoffice/api/categories";
+import * as BackofficeOrdersApiController from "./controllers/backoffice/api/orders";
 
 import * as BackofficeLoginController from "./controllers/backoffice/login";
 import * as BackofficeRegisterController from "./controllers/backoffice/register";
@@ -83,6 +84,12 @@ backOfficeApiRoutes.post(
     Validators.createCategoryValidator,
     UserMiddleware.populateAuthUser,
     BackofficeCategoriesApiController.post
+);
+backOfficeApiRoutes.get(
+    "/stores/:id/orders",
+    Validators.IdParamValidator,
+    UserMiddleware.populateAuthUser,
+    BackofficeOrdersApiController.get
 );
 
 export = routes;
