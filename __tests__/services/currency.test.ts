@@ -63,6 +63,7 @@ describe("Currency service", () => {
             } catch (error: any) {
                 expect(error.message).toBe("Failed to retrieve currencies");
             }
+            expect(mockAxios).toHaveBeenCalledTimes(1);
         });
     });
 });

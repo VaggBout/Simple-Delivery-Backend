@@ -20,7 +20,7 @@ export async function create(
     const order = new Order({ user, date: DateTime.now(), store: storeId });
     let totalPrice = 0;
 
-    const menu: Map<String, IProduct> = new Map(
+    const menu: Map<string, IProduct> = new Map(
         productsResult.data.map((product) => [product._id.toString(), product])
     );
 

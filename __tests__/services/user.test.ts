@@ -1,9 +1,7 @@
 import { describe, expect, test, jest, beforeEach } from "@jest/globals";
 import { Types } from "mongoose";
 import * as UserService from "../../src/services/user";
-import Store from "../../src/models/store";
 import User from "../../src/models/user";
-import Category from "../../src/models/category";
 import { UserDao } from "../../src/types/models";
 
 describe("User service", () => {
