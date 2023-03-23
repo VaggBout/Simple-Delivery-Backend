@@ -19,11 +19,14 @@ describe("Category service", () => {
                     () => Promise.resolve({ name: "test" }) as any
                 );
 
-            const result = await CategoryService.create({
-                name: "test",
-                products: [],
-                store: new Types.ObjectId(),
-            });
+            const result = await CategoryService.create(
+                {
+                    name: "test",
+                    products: [],
+                    store: new Types.ObjectId(),
+                },
+                new Types.ObjectId()
+            );
 
             expect(result.error).toBe("Category test already exists");
             expect(mockFindOne).toHaveBeenCalledTimes(1);
@@ -35,7 +38,7 @@ describe("Category service", () => {
                 .mockImplementationOnce(() => Promise.resolve(null) as any);
 
             const storeMockFindOne = jest
-                .spyOn(Store, "findOne")
+                .spyOn(Store, "find")
                 .mockImplementationOnce(() => Promise.resolve(null) as any);
 
             const data = {
@@ -43,7 +46,10 @@ describe("Category service", () => {
                 products: [],
                 store: new Types.ObjectId(),
             };
-            const result = await CategoryService.create(data);
+            const result = await CategoryService.create(
+                data,
+                new Types.ObjectId()
+            );
 
             expect(result.error).toBe(
                 `Store with ${data.store} does not exist`
@@ -59,7 +65,7 @@ describe("Category service", () => {
                 .mockImplementationOnce(() => Promise.resolve(null) as any);
 
             const storeMockFindOne = jest
-                .spyOn(Store, "findOne")
+                .spyOn(Store, "find")
                 .mockImplementationOnce(
                     () =>
                         Promise.resolve({
@@ -78,7 +84,10 @@ describe("Category service", () => {
                 products: [],
                 store: new Types.ObjectId(),
             };
-            const result = await CategoryService.create(data);
+            const result = await CategoryService.create(
+                data,
+                new Types.ObjectId()
+            );
             expect(result.error).toBeUndefined();
             expect(result.data).toBe(mockId);
             expect(categoryMockFindOne).toHaveBeenCalledTimes(1);
