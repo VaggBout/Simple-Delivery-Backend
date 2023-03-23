@@ -15,8 +15,12 @@ function registerRegistrationHandler() {
         };
 
         try {
-            await axios.post("/backoffice/api/login", data);
-            location.href = "/backoffice";
+            const response = await axios.post("/backoffice/api/login", data);
+            if (response.data.data?._id) {
+                location.href = `/backoffice/stores/${response.data.data._id}/orders`;
+                return;
+            }
+            location.reload();
         } catch (error) {
             document.getElementById("loginForm").reset();
             errorMessage(error.response.data.error, "loginError");

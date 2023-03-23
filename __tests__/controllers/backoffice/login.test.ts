@@ -1,7 +1,8 @@
-import { describe, expect, test, jest, afterAll } from "@jest/globals";
+import { describe, expect, test, jest } from "@jest/globals";
 import { Types } from "mongoose";
 import * as LoginController from "../../../src/controllers/backoffice/api/login";
 import * as UserService from "../../../src/services/user";
+import * as StoreService from "../../../src/services/store";
 import { Request, Response } from "express";
 
 describe("Login controller", () => {
@@ -10,7 +11,7 @@ describe("Login controller", () => {
         jest.clearAllMocks();
     });
 
-    test("should add cookie when login is success", async () => {
+    test("should add cookie and include store id in response when login is success", async () => {
         const mockAuth = jest
             .spyOn(UserService, "auth")
             .mockImplementationOnce(() =>
@@ -24,6 +25,15 @@ describe("Login controller", () => {
                         _id: new Types.ObjectId(),
                     },
                 })
+            );
+
+        const mockGetStoreByOwnerId = jest
+            .spyOn(StoreService, "getStoreByOwnerId")
+            .mockImplementationOnce(
+                () =>
+                    Promise.resolve({
+                        data: { _id: "test-id" },
+                    }) as any
             );
 
         const req = {
@@ -45,7 +55,9 @@ describe("Login controller", () => {
         } as unknown as Response;
 
         await LoginController.post(req, res);
+        expect(res.send).toHaveBeenCalledWith({ data: { _id: "test-id" } });
         expect(mockAuth).toHaveBeenCalledTimes(1);
+        expect(mockGetStoreByOwnerId).toHaveBeenCalledTimes(1);
     });
 
     test("should respond with error when login failed", async () => {

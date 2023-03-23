@@ -1,6 +1,7 @@
 import { CookieOptions, Request, Response } from "express";
 import { UserDao } from "../../../types/models";
 import * as UserService from "../../../services/user";
+import * as StoreService from "../../../services/store";
 import logger from "../../../utils/logger";
 import { validationResult } from "express-validator";
 
@@ -19,8 +20,8 @@ export async function post(req: Request, res: Response): Promise<void> {
         const result = await UserService.auth(email, password);
         res.status(result.code);
 
-        if (result.error) {
-            res.send({ error: result.error });
+        if (result.error || !result.data) {
+            res.send({ error: result.error ?? "Invalid credentials" });
             return;
         }
 
@@ -30,7 +31,11 @@ export async function post(req: Request, res: Response): Promise<void> {
             expires: new Date(Date.now() + 3600000 * 24 * 60),
         };
         res.cookie("token", token, options);
-        res.send();
+
+        const storeResult = await StoreService.getStoreByOwnerId(
+            result.data?._id
+        );
+        res.send({ data: storeResult.data });
     } catch (error) {
         logger.error(error);
         res.status(500);

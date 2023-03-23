@@ -7,7 +7,6 @@ import * as BackofficeCategoriesApiController from "./controllers/backoffice/api
 import * as BackofficeOrdersApiController from "./controllers/backoffice/api/orders";
 
 import * as BackofficeLoginController from "./controllers/backoffice/login";
-import * as BackofficeRegisterController from "./controllers/backoffice/register";
 import * as BackofficeOrdersController from "./controllers/backoffice/orders";
 
 import * as StoresApiController from "./controllers/api/stores";
@@ -49,11 +48,6 @@ backOfficeRoutes.get(
     "/login",
     UserMiddleware.populateAuthUser,
     BackofficeLoginController.get
-);
-backOfficeRoutes.get(
-    "/register",
-    UserMiddleware.populateAuthUser,
-    BackofficeRegisterController.get
 );
 backOfficeRoutes.use("/api", backOfficeApiRoutes);
 
