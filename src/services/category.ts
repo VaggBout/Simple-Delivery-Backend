@@ -6,7 +6,8 @@ import { OperationResult } from "../types/common";
 import { CategoryDao, ICategory, IProduct } from "../types/models";
 
 export async function create(
-    data: ICategory
+    data: ICategory,
+    userId: Types.ObjectId
 ): Promise<OperationResult<Types.ObjectId>> {
     const existingCategory = await Category.findOne({
         $and: [{ name: data.name }, { store: data.store }],
@@ -19,7 +20,10 @@ export async function create(
         };
     }
 
-    const store = await Store.findById(data.store);
+    const store = await Store.find({
+        _id: data.store,
+        owner: userId,
+    });
     if (!store) {
         return {
             error: `Store with ${data.store} does not exist`,

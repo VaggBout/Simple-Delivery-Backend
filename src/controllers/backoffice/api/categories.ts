@@ -24,7 +24,7 @@ export async function post(req: Request, res: Response): Promise<void> {
     };
 
     try {
-        const result = await CategoryService.create(data);
+        const result = await CategoryService.create(data, res.locals.user._id);
         res.status(result.code);
 
         if (result.error) {

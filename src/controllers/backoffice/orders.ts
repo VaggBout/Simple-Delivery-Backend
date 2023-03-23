@@ -18,22 +18,24 @@ export async function get(req: Request, res: Response): Promise<void> {
         return;
     }
 
-    const storeId = req.params.id as unknown as Types.ObjectId;
+    const storeId = req.params.id as unknown as string;
     try {
         const storeResult = await StoreService.getStoreByOwnerId(
             res.locals.user.id
         );
 
-        if (storeResult.error) {
-            res.redirect("404");
+        if (storeResult.error || storeId !== storeResult.data?._id.toString()) {
+            res.redirect("/404");
             return;
         }
 
-        const result = await OrderService.getOrdersByStoreId(storeId);
+        const result = await OrderService.getOrdersByStoreId(
+            new Types.ObjectId(storeId)
+        );
         res.status(result.code);
 
         if (result.error) {
-            res.redirect("404");
+            res.redirect("/404");
             return;
         }
 
