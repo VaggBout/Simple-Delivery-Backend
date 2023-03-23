@@ -55,7 +55,7 @@ describe("Store service", () => {
         test("Should create new store when data is valid", async () => {
             const mockFindOne = jest
                 .spyOn(Store, "findOne")
-                .mockImplementationOnce(() => Promise.resolve(null) as any);
+                .mockImplementation(() => Promise.resolve(null) as any);
 
             const mockFindById = jest
                 .spyOn(User, "findById")
@@ -83,7 +83,7 @@ describe("Store service", () => {
 
             expect(result.error).toBeUndefined();
             expect(result.data).toBe("test");
-            expect(mockFindOne).toHaveBeenCalledTimes(1);
+            expect(mockFindOne).toHaveBeenCalledTimes(2);
             expect(mockFindById).toHaveBeenCalledTimes(1);
             expect(mockSave).toHaveBeenCalledTimes(1);
         });

@@ -26,6 +26,14 @@ export async function create(
         };
     }
 
+    const usersStore = await Store.findOne({ owner: data.owner });
+    if (usersStore) {
+        return {
+            error: `User already has a store`,
+            code: 400,
+        };
+    }
+
     const store = new Store({ ...data });
     const doc = await store.save();
 
