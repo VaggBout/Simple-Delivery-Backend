@@ -1,4 +1,4 @@
-import { describe, expect, test, jest, afterAll } from "@jest/globals";
+import { describe, expect, test, jest } from "@jest/globals";
 import { Types } from "mongoose";
 import * as MenuController from "../../../src/controllers/api/menu";
 import * as CategoryService from "../../../src/services/category";

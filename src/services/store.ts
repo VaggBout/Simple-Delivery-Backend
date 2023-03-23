@@ -29,7 +29,7 @@ export async function create(
     const usersStore = await Store.findOne({ owner: data.owner });
     if (usersStore) {
         return {
-            error: `User already has a store`,
+            error: "User already has a store",
             code: 400,
         };
     }
