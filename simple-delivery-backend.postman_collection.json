@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "a481eb38-0741-44fc-99cc-fea232654a91",
+		"name": "simple-delivery-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19543300"
+	},
+	"item": [
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "Get live stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/stores/:storeId/menu",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"stores",
+								":storeId",
+								"menu"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "EUR",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "storeId",
+									"value": "<store-id>"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"name\": \"User Name\",\r\n        \"email\": \"test@email.com\",\r\n        \"address\": \"Aigaleo, Attiki\"\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"_id\": \"<product-id>\",\r\n            \"quantity\": 3\r\n        },\r\n        {\r\n            \"_id\": \"<product-id>\",\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"_id\": \"<product-id>\",\r\n            \"quantity\": 5\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/stores/:storeId/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"stores",
+								":storeId",
+								"orders"
+							],
+							"variable": [
+								{
+									"key": "storeId",
+									"value": "<store-id>"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Backoffice",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Name\",\r\n    \"email\": \"test@email.com\",\r\n    \"address\": \"Aigaleo, Athens\",\r\n    \"password\": \"abc123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@email.com\",\r\n    \"password\": \"abc123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My store!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My category\",\r\n    \"store\": \"<store-id>\",\r\n    \"products\": [\r\n        {\r\n            \"name\": \"Product 1\",\r\n            \"description\": \"Product description\",\r\n            \"price\": 1.00\r\n        },\r\n        {\r\n            \"name\": \"Product 2\",\r\n            \"description\": \"Product description\",\r\n            \"price\": 5.50\r\n        },\r\n        {\r\n            \"name\": \"Product 3\",\r\n            \"description\": \"Product description\",\r\n            \"price\": 7.80\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish store",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/stores/:storeId/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"stores",
+								":storeId",
+								"publish"
+							],
+							"variable": [
+								{
+									"key": "storeId",
+									"value": "<store-id>"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/backoffice/api/stores/:storeId/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"backoffice",
+								"api",
+								"stores",
+								":storeId",
+								"orders"
+							],
+							"variable": [
+								{
+									"key": "storeId",
+									"value": "<store-id>"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

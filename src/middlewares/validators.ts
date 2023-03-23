@@ -49,7 +49,9 @@ const createCategoryValidator = [
         .escape()
         .withMessage("Must be a valid string"),
     body("store").isMongoId().trim().escape(),
-    body("products").isArray({ min: 2 }),
+    body("products")
+        .isArray({ min: 2 })
+        .withMessage("Must have at least 2 products"),
     body("products.*.name")
         .isString()
         .not()
