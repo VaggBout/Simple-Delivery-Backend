@@ -79,19 +79,24 @@ const createOrderValidator = [
         .isEmail()
         .withMessage("Must be a valid email"),
     body("user.address").isString().withMessage("Must be a valid address"),
-    body("products").isArray({ min: 1 }),
-    body("products.*._id").isMongoId(),
+    body("products")
+        .isArray({ min: 1 })
+        .withMessage("Must have at least one product"),
+    body("products.*._id").isMongoId().withMessage("_id must be a valid ID"),
     body("products.*.quantity").isInt({ min: 1 }),
 ];
 
-const IdParamValidator = [param("id").isMongoId()];
+const IdParamValidator = [
+    param("id").isMongoId().withMessage("id must be a valid ID"),
+];
 
 const CurrencyQueryValidator = [
     query("currency")
         .optional()
         .isString()
         .trim()
-        .matches(/[A-Z]{3}/),
+        .matches(/[A-Z]{3}/)
+        .withMessage("Must be a valid currency code"),
 ];
 
 export {
