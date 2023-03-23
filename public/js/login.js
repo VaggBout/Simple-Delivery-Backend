@@ -1,10 +1,10 @@
 "use strict";
 
 window.onload = function () {
-    registerRegistrationHandler();
+    registerLoginHandler();
 };
 
-function registerRegistrationHandler() {
+function registerLoginHandler() {
     const loginForm = document.getElementById("loginForm");
     loginForm.addEventListener("submit", async function (evt) {
         evt.preventDefault();
